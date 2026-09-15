@@ -48,6 +48,7 @@ object PromptAssetResolver {
         }.getOrNull() ?: Locale.getDefault()
         val normalizedLanguage = locale.language.lowercase(Locale.ROOT)
         return when {
+            normalizedLanguage == "uk" -> UK_VARIANT
             normalizedLanguage == "en" -> EN_VARIANT
             normalizedLanguage == "ru" -> RU_VARIANT
             normalizedLanguage == "pt" && locale.country.equals("BR", ignoreCase = true) -> PT_BR_VARIANT
@@ -73,6 +74,11 @@ object PromptAssetResolver {
         key = "zh_hans",
         suffix = "",
         targetLabelRes = R.string.language_simplified_chinese
+    )
+    private val UK_VARIANT = PromptLocaleVariant(
+    key = "uk",
+    suffix = "_uk",
+    targetLabelRes = R.string.language_ukrainian
     )
     private val HANT_VARIANT = PromptLocaleVariant(
         key = "zh_hant",
