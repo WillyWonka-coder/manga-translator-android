@@ -479,6 +479,18 @@ class FloatingTranslationView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+            val isStylus = event.getToolType(0) == MotionEvent.TOOL_TYPE_STYLUS
+        val isStylusButtonPressed = (event.buttonState and MotionEvent.BUTTON_STYLUS_PRIMARY) != 0
+
+        // Якщо натиснута кнопка на пері Lenovo — швидке видалення баблу під пером
+        if (editMode && isStylus && isStylusButtonPressed && event.actionMasked == MotionEvent.ACTION_DOWN) {
+            val target = findBubbleAt(event.x, event.y)
+            if (target != null) {
+                performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                onBubbleRemove?.invoke(target.bubbleId)
+                return true
+            }
+        }
         if (touchPassthroughEnabled && !editMode) {
             return false
         }
@@ -1374,20 +1386,23 @@ class FloatingTranslationView @JvmOverloads constructor(
         outRect.set(left, top, right, bottom)
     }
 
-    private fun drawTextInRect(
+        private fun drawTextInRect(
         canvas: Canvas,
         text: String,
         rect: RectF,
         startFromTop: Boolean
     ) {
+        val strokePaint = TextPaint(textPaint).apply {
+            style = Paint.Style.STROKE
+            strokeWidth = resources.displayMetrics.density * 2.5f
+            strokeJoin = Paint.Join.ROUND
+            color = if (textPaint.color == DEFAULT_TEXT_COLOR) Color.WHITE else Color.BLACK
+        }
+
         if (verticalLayoutEnabled) {
             canvas.withClip(rect) {
-                drawVerticalTextInRect(
-                    this,
-                    VerticalTextSymbolConverter.convert(text),
-                    rect,
-                    startFromTop
-                )
+                val converted = VerticalTextSymbolConverter.convert(text)
+                drawVerticalTextInRect(this, converted, rect, startFromTop)
             }
         } else {
             val textSize = resolveHorizontalTextSize(rect, text)
