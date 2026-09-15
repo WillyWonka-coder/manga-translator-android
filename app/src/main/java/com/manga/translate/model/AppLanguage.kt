@@ -13,11 +13,9 @@ enum class AppLanguage(
     private val languageTags: String?
 ) {
     FOLLOW_SYSTEM("follow_system", R.string.language_follow_system, null),
-    SIMPLIFIED_CHINESE("zh_hans", R.string.language_simplified_chinese, "zh-Hans"),
-    TRADITIONAL_CHINESE("zh_hant", R.string.language_traditional_chinese, "zh-Hant"),
+    UKRAINIAN("uk", R.string.language_ukrainian, "uk"),
     ENGLISH("en", R.string.language_english, "en"),
-    RUSSIAN("ru", R.string.language_russian, "ru"),
-    PORTUGUESE_BRAZIL("pt_br", R.string.language_portuguese_brazil, "pt-BR");
+    RUSSIAN("ru", R.string.language_russian, "ru");
 
     fun toLocales(): LocaleListCompat {
         return if (languageTags.isNullOrBlank()) {
@@ -36,7 +34,7 @@ enum class AppLanguage(
         return if (hasSupportedSystemLanguage(systemLocales)) {
             LocaleListCompat.getEmptyLocaleList()
         } else {
-            ENGLISH.toLocales()
+            UKRAINIAN.toLocales()
         }
     }
 
@@ -58,10 +56,9 @@ enum class AppLanguage(
         private fun isSupportedLanguageTag(tag: String): Boolean {
             val locale = Locale.forLanguageTag(tag)
             val language = locale.language.lowercase(Locale.ROOT)
-            return language in SUPPORTED_SYSTEM_LANGUAGES ||
-                (language == "pt" && locale.country.equals("BR", ignoreCase = true))
+            return language in SUPPORTED_SYSTEM_LANGUAGES
         }
 
-        private val SUPPORTED_SYSTEM_LANGUAGES = setOf("zh", "en", "ru")
+        private val SUPPORTED_SYSTEM_LANGUAGES = setOf("uk", "en", "ru")
     }
 }

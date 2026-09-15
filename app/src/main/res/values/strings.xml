@@ -631,4 +631,8 @@
     <string name="global_progress_done">%1$s 完成</string>
     <string name="global_progress_in_progress">%1$s中</string>
     <string name="global_progress_count">%1$s %2$d/%3$d</string>
-</resources>
+     <string name="online_manga_search_button">Online Manga Search &amp; Download</string>
+ <string name="online_manga_search_hint">Search manga title…</string>
+ <string name="online_manga_downloading">Downloading page %1$d of %2$d…</string>
+ <string name="online_manga_download_complete">Chapter downloaded successfully!</string>
+ </resources>
