@@ -10,6 +10,8 @@
     <string name="tab_library">Бібліотека</string>
     <string name="tab_reading">Читання</string>
     <string name="tab_settings">Налаштування</string>
+    
+    <!-- Налаштування API -->
     <string name="settings_group_api">API Провайдер</string>
     <string name="settings_group_api_title">Конфігурація моделі та ключів перекладу</string>
     <string name="settings_group_translation">Переклад та OCR</string>
@@ -37,12 +39,27 @@
     <string name="api_url_required">Будь ласка, введіть адресу API</string>
     <string name="missing_api_settings">Введіть адресу API та ключ у налаштуваннях</string>
     <string name="missing_translate_api_settings">Введіть адресу API, ключ та назву моделі</string>
-    <string name="text_layout_horizontal">Горизонтальне розташування тексту</string>
-    <string name="bubble_vertical_text">Вертикальне розташування тексту в баблах</string>
-    <string name="model_io_logging">Записувати вхідні/вихідні дані AI моделі</string>
-    <string name="theme_setting_button">Тема оформлення</string>
-    <string name="theme_setting_title">Тема оформлення</string>
-    <string name="theme_setting_format">Тема: %1$s</string>
+
+    <!-- Користувацькі параметри -->
+    <string name="custom_request_params_button">Користувацькі параметри запиту</string>
+    <string name="custom_request_params_button_format">Параметри запиту: %1$d</string>
+    <string name="custom_request_params_title">Користувацькі параметри запиту</string>
+    <string name="custom_request_params_note">Додаткові поля у тілі запиту до AI. Дозволяє передавати спеціальні параметри до моделі.</string>
+    <string name="custom_request_params_add">Додати параметр</string>
+    <string name="custom_request_params_enabled">Увімкнено</string>
+    <string name="custom_request_param_key_hint">Ключ параметра</string>
+    <string name="custom_request_param_value_hint">Значення параметра</string>
+
+    <!-- Плаваючий переклад -->
+    <string name="floating_translate_settings_button">Налаштування плаваючого перекладу</string>
+    <string name="floating_translate_settings_title">Налаштування плаваючого перекладу</string>
+    <string name="floating_bubble_render_settings_button">Пузирі плаваючого вікна</string>
+    <string name="floating_bubble_render_settings_title">Пузирі плаваючого вікна</string>
+
+    <!-- Джерело оновлень та мови -->
+    <string name="link_source_button">Джерело оновлень</string>
+    <string name="link_source_title">Джерело оновлень</string>
+    <string name="link_source_format">Джерело оновлень: %1$s</string>
     <string name="language_setting_button">Мова інтерфейсу</string>
     <string name="language_setting_title">Мова інтерфейсу</string>
     <string name="language_setting_format">Мова: %1$s</string>
@@ -50,6 +67,14 @@
     <string name="language_ukrainian">Українська</string>
     <string name="language_english">English</string>
     <string name="language_russian">Русский</string>
+
+    <string name="text_layout_horizontal">Горизонтальне розташування тексту</string>
+    <string name="bubble_vertical_text">Вертикальне розташування тексту в баблах</string>
+    <string name="model_io_logging">Записувати вхідні/вихідні дані AI моделі</string>
+    <string name="theme_setting_button">Тема оформлення</string>
+    <string name="theme_setting_title">Тема оформлення</string>
+    <string name="theme_setting_format">Тема: %1$s</string>
+    
     <string name="reading_display_button">Налаштування перегляду</string>
     <string name="reading_display_title">Відображення сторінки</string>
     <string name="reading_display_format">Масштабування: %1$s</string>
@@ -61,12 +86,14 @@
     <string name="reading_page_animation_none">Без анімації</string>
     <string name="reading_page_animation_horizontal_slide">Горизонтальний зсув</string>
     <string name="reading_page_loading_placeholder">Завантаження сторінки…</string>
+    
     <string name="theme_follow_system">Як у системі</string>
     <string name="theme_dark">Темна</string>
     <string name="theme_light">Світла</string>
     <string name="theme_pastel">Пастельна</string>
     <string name="theme_deep_sea">Морська</string>
     <string name="theme_custom">Власна</string>
+    
     <string name="fetch_models">Отримати список моделей</string>
     <string name="ai_provider_profiles_button">Профілі провайдерів AI</string>
     <string name="ai_provider_profiles_button_format">Профілі AI: %1$s (%2$d)</string>
@@ -95,12 +122,17 @@
     <string name="view_logs">Переглянути журнал (логи)</string>
     <string name="share_logs">Поділитися журналом</string>
     <string name="logs_title">Журнали додатку</string>
+
+    <!-- Елементи бібліотеки та папок зі скріншотів -->
     <string name="library_quick_actions">Швидкі дії</string>
     <string name="library_quick_actions_title">Імпорт та інструменти</string>
+    <string name="library_action_panel_label">Панель керування</string>
     <string name="library_collection_label">Манга</string>
     <string name="library_collection_title">Проекти манги</string>
     <string name="library_sort_by_name">За назвою</string>
     <string name="library_sort_by_time">За датою</string>
+    <string name="library_pages_label">Список сторінок</string>
+    <string name="tutorial_button">Інструкція</string>
     <string name="floating_translate_button">Плаваюче вікно перекладу</string>
     <string name="create_folder">Нова папка</string>
     <string name="create_collection">Нова колекція</string>
@@ -119,12 +151,20 @@
     <string name="folder_image_count">%1$d сторінок</string>
     <string name="folder_delete">Видалити</string>
     <string name="folder_rename">Перейменувати</string>
+
+    <string name="folder_translation_settings">Налаштування перекладу</string>
+    <string name="folder_reading_settings">Налаштування читання</string>
+    <string name="folder_reading_settings_hint">Окремий режим читання для цієї манги, не впливає на інші.</string>
     <string name="folder_reading_mode_setting">Режим читання</string>
+    <string name="folder_reading_mode_title">Оберіть режим читання</string>
+    <string name="folder_reading_mode_format">Режим читання: %1$s</string>
     <string name="folder_reading_mode_standard">Посторінковий режим</string>
     <string name="folder_reading_mode_webtoon_scroll">Вертикальний вебтун (стрічка)</string>
+
     <string name="folder_language_setting">Мова перекладу: %1$s</string>
     <string name="folder_language_setting_title">Оберіть мову перекладу</string>
     <string name="folder_language_to_target">Перекласти на %1$s</string>
+    <string name="translation_language_pair_format">%1$s → %2$s</string>
     <string name="translation_source_japanese">Японська</string>
     <string name="translation_source_korean">Корейська (манхва)</string>
     <string name="translation_source_simplified_chinese">Китайська (маньхуа)</string>
@@ -132,11 +172,17 @@
     <string name="translation_source_english">Англійська</string>
     <string name="translation_source_mixed_chinese_english">Змішана</string>
     <string name="translation_source_russian">Російська</string>
+    
     <string name="folder_full_translate">Швидкий переклад повної сторінки</string>
     <string name="folder_glossary_processing">Ведення накопичувального глосарію</string>
+    <string name="folder_use_vl_direct_translate">Перекладати весь бабл моделлю VL</string>
+    <string name="folder_use_vl_direct_translate_note">Відправляти вирізку баблу одразу в зорову (VL) модель без окремого OCR.</string>
+    <string name="folder_use_vl_direct_translate_warning">Переконайтеся, що обрана AI-модель підтримує зображення (Vision).</string>
+
     <string name="folder_detection_mode_bubbles">Лише бабли</string>
     <string name="folder_detection_mode_text">Лише текст</string>
     <string name="folder_detection_mode_bubbles_and_text">Бабли та звуки (SFX)</string>
+
     <string name="reading_edit_bubbles">Редагувати бабли (пером)</string>
     <string name="reading_confirm_edit">Готово</string>
     <string name="reading_cancel_edit">Скасувати</string>
@@ -147,10 +193,12 @@
     <string name="image_not_translated">Оригінал</string>
     <string name="reading_bubble_size_minus">Зменшити бабл</string>
     <string name="reading_bubble_size_plus">Збільшити бабл</string>
+
     <string name="online_manga_search_button">Пошук та завантаження онлайн</string>
     <string name="online_manga_search_hint">Введіть назву манги…</string>
     <string name="online_manga_downloading">Завантаження сторінки %1$d з %2$d…</string>
     <string name="online_manga_download_complete">Розділ успішно завантажено в бібліотеку!</string>
+
     <string name="about_button">Про програму</string>
     <string name="about_dialog_title">Про програму</string>
     <string name="about_dialog_message">Manga Translator Studio Tablet\nВерсія: %1$s\nОптимізовано під перо та великі екрани планшетів.</string>

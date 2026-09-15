@@ -465,11 +465,8 @@ class LibraryFragment : Fragment() {
                 )
             )
         }
-        binding.tutorialButton.setOnClickListener { openTutorial() }
-        if (!settingsStore.hasShownTutorialPrompt()) {
-            settingsStore.markTutorialPromptShown()
-            view.post {
-                if (isAdded && _binding != null) openTutorial()
+             binding.tutorialButton.setOnClickListener { openTutorial() }
+     settingsStore.markTutorialPromptShown()
             }
         }
         binding.librarySelectAll.setOnClickListener { selectionManager.toggleSelectAllLibraryFolders() }
