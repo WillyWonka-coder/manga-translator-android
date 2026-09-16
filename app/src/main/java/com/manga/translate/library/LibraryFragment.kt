@@ -465,10 +465,9 @@ class LibraryFragment : Fragment() {
                 )
             )
         }
-             binding.tutorialButton.setOnClickListener { openTutorial() }
-     settingsStore.markTutorialPromptShown()
-            }
-        }
+                      binding.onlineMangadexButton.setOnClickListener {
+         showMangaDexSearchDialog()
+     }
         binding.librarySelectAll.setOnClickListener { selectionManager.toggleSelectAllLibraryFolders() }
         binding.libraryTranslateSelected.setOnClickListener { translateSelectedLibraryFolders() }
         binding.libraryDeleteSelected.setOnClickListener { confirmDeleteSelectedLibraryFolders() }
@@ -483,7 +482,7 @@ class LibraryFragment : Fragment() {
         binding.folderImportChapters.setOnClickListener { importChildChapters() }
         binding.folderExportCollection.setOnClickListener { exportCollection() }
         binding.folderTranslateCollection.setOnClickListener { translateFolder() }
-        binding.folderExport.setOnClickListener { exportFolder() }
+        binding.folderExport.setOnClickListener { showExportChoiceDialog() }
         binding.folderTranslate.setOnClickListener { translateFolder() }
         binding.folderRead.setOnClickListener { startReading() }
         binding.folderCollectionRead.setOnClickListener { startReading() }
@@ -1990,6 +1989,147 @@ class LibraryFragment : Fragment() {
     private sealed interface FolderFilter {
         data class Status(val status: FolderStatus) : FolderFilter
         data class CustomTag(val tag: String) : FolderFilter
+    }
+
+    private fun showMangaDexSearchDialog() {
+        val input = android.widget.EditText(requireContext()).apply {
+            hint = getString(R.string.online_manga_search_hint)
+        }
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.online_manga_search_button)
+            .setView(input)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                val query = input.text.toString().trim()
+                if (query.isNotBlank()) {
+                    performMangaDexSearch(query)
+                }
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun performMangaDexSearch(query: String) {
+        val progress = AlertDialog.Builder(requireContext())
+            .setMessage("Пошук на MangaDex…")
+            .setCancelable(false)
+            .show()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val results = com.manga.translate.network.MangaOnlineDownloader.searchManga(query)
+            progress.dismiss()
+            if (results.isEmpty()) {
+                Toast.makeText(requireContext(), "Нічого не знайдено", Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+            val titles = results.map { it.title }.toTypedArray()
+            AlertDialog.Builder(requireContext())
+                .setTitle("Оберіть тайтл")
+                .setItems(titles) { _, which ->
+                    val selected = results[which]
+                    loadMangaDexChapters(selected)
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
+    }
+
+    private fun loadMangaDexChapters(manga: com.manga.translate.network.OnlineManga) {
+        val progress = AlertDialog.Builder(requireContext())
+            .setMessage("Завантаження списку глав…")
+            .setCancelable(false)
+            .show()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val chapters = com.manga.translate.network.MangaOnlineDownloader.getChapters(manga.id, "ja")
+                .ifEmpty { com.manga.translate.network.MangaOnlineDownloader.getChapters(manga.id, "en") }
+            progress.dismiss()
+            if (chapters.isEmpty()) {
+                Toast.makeText(requireContext(), "Глав не знайдено", Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+            val chapterLabels = chapters.map { "Розділ ${it.chapterNum}: ${it.title}" }.toTypedArray()
+            AlertDialog.Builder(requireContext())
+                .setTitle("${manga.title} — Розділи")
+                .setItems(chapterLabels) { _, which ->
+                    val chosen = chapters[which]
+                    startDownloadingChapter(manga.title, chosen)
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
+    }
+
+    private fun startDownloadingChapter(
+        mangaTitle: String,
+        chapter: com.manga.translate.network.OnlineChapter
+    ) {
+        val safeName = "${mangaTitle.replace(Regex("[^A-Za-z0-9а-яА-ЯіІїЇєЄґҐ _-]"), "")}_Ch${chapter.chapterNum}"
+        val folder = File(repository.libraryDir, safeName)
+        val progressDialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.online_manga_search_button)
+            .setMessage("Початок завантаження…")
+            .setCancelable(false)
+            .create()
+        progressDialog.show()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val success = com.manga.translate.network.MangaOnlineDownloader.downloadChapter(
+                chapterId = chapter.id,
+                targetDir = folder
+            ) { current, total ->
+                progressDialog.setMessage(getString(R.string.online_manga_downloading, current, total))
+            }
+            progressDialog.dismiss()
+            if (success) {
+                Toast.makeText(requireContext(), R.string.online_manga_download_complete, Toast.LENGTH_LONG).show()
+                loadFolders()
+            } else {
+                Toast.makeText(requireContext(), "Помилка завантаження", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun showExportChoiceDialog() {
+        val folder = currentFolder ?: return
+        val options = arrayOf(
+            "Експортувати мангу (з перекладом)",
+            "Експортувати скрипт перекладу (JSON файл з оригіналом і перекладом)"
+        )
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.folder_export)
+            .setItems(options) { _, which ->
+                if (which == 0) {
+                    exportFolder()
+                } else {
+                    exportTranslationScript(folder)
+                }
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun exportTranslationScript(folder: File) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            val images = repository.listImages(folder)
+            val scriptArray = org.json.JSONArray()
+            for (img in images) {
+                val translation = translationStore.load(img) ?: continue
+                for (bubble in translation.bubbles) {
+                    val item = org.json.JSONObject().apply {
+                        put("page", img.name)
+                        put("id", bubble.id)
+                        put("original", bubble.originalText)
+                        put("translation", bubble.text)
+                    }
+                    scriptArray.put(item)
+                }
+            }
+            val scriptFile = File(folder, "script_translations.json")
+            scriptFile.writeText(scriptArray.toString(2))
+            withContext(Dispatchers.Main) {
+                Toast.makeText(requireContext(), "Скрипт збережено: ${scriptFile.name}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 }
