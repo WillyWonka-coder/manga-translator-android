@@ -1,105 +1,97 @@
-中文 | [English](./README_EN.md)
+# Manga Scanlation Studio (Tablet Edition) 📖 🖊️
 
-# Manga Translator 📖
+An open-source AI-assisted manga, manhwa, and manhua translation & inpainting suite designed specifically for **Android tablets with active stylus pens** (Lenovo Xiaoxin Pad / Precision Pen, Samsung Galaxy Tab / S-Pen).
 
-面向安卓的漫画翻译 App：本地气泡检测与 OCR，结合 OpenAI 兼容接口完成翻译，并在原图上覆盖显示可拖动的翻译气泡。并支持屏幕翻译/悬浮窗翻译，可在任意 App 或桌面上直接识别并翻译当前屏幕中的漫画文本。
+[![Platform: Android](https://img.shields.io/badge/Platform-Android_10+-3DDC84.svg?logo=android&logoColor=white)](https://github.com/WillyWonka-coder/manga-translator-android)
+[![Form Factor: Tablet](https://img.shields.io/badge/Optimized_for-11%22--14.6%22_Tablets-FF6F00.svg)](https://github.com/WillyWonka-coder/manga-translator-android)
+[![Input: Active Stylus](https://img.shields.io/badge/Stylus-Palm_Rejection_%26_Button_Support-blue.svg)](https://github.com/WillyWonka-coder/manga-translator-android)
+[![CI Build](https://img.shields.io/badge/Cloud_Build-GitHub_Actions-2088FF.svg?logo=github-actions&logoColor=white)](https://github.com/WillyWonka-coder/manga-translator-android/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-使用教程：[简中教程](./Tutorial/简中教程.md)
+---
 
-| 原图 | 翻译结果 |
-|------|----------|
-| ![原图](./Tutorial/FirePunch.webp) | ![翻译结果](./Tutorial/translated.webp) |
+## Overview 🌟
 
+Unlike traditional handheld readers that overlay solid white boxes over comic pages, **Manga Scanlation Studio (Tablet Edition)** is tailored for scanlators, translators, and editors who work directly on tablets. 
 
-## 主要功能 ✨
-- 支持日、英、韩、法、西、葡、德、意、俄等多种源语言翻译为中文，以及中文翻译为英文或俄文
-- 屏幕翻译：支持悬浮窗翻译，在任意界面识别并翻译当前屏幕内容
-- 漫画库管理：新建文件夹、批量导入图片、漫画文件夹导入，支持CBZ、ZIP、PDF导入导出
-- 翻译流程：气泡检测 + 本地或 OpenAI 兼容 API OCR + LLM 翻译，支持标准模式与全文速译
-- 阅读体验：翻译覆盖层、翻译气泡位置可拖动、阅读进度自动保存；新增取消键与加减号微调，条漫与普通阅读缩放同步
-- 字体设置：支持自定义气泡字体、字体加粗，普通气泡框与悬浮窗气泡框共用一套字体配置
-- 译名表与缓存：按文件夹维护 glossary.json，自动累积固定译名
-- 后台翻译通知：文件夹/批量翻译完成后发送带声音的高优先级系统通知，点击回到漫画库
-- 更新与日志：启动检查更新，翻译期间前台服务与日志查看
-- 条漫/长图：自动判断作品是否更接近条漫并切换阅读方式，长图/条漫模式下支持跨页气泡合并
+It combines **offline ONNX character recognition**, **AI-driven contextual translation**, **intelligent inpainting**, and a **direct online chapter downloader**, all wrapped into a high-resolution workspace optimized for stylus precision.
 
-## 支持的翻译语言 🌐
-- 目标语言由软件界面语言决定：
-  - 简体中文界面 → 简体中文
-  - 繁体中文界面 → 繁体中文
-  - 英文界面 → 英文
-  - 俄文界面 → 俄文
-  - 巴西葡萄牙语界面 → 巴西葡萄牙语
-- 当前文件夹的源语言可在漫画库中单独设置，支持：日文、英文、韩文、简体中文、繁体中文、中英混合、法文、西班牙文、葡萄牙文、德文、意大利文、俄文
-- 软件界面切换为繁体中文时，会优先使用繁体提示词
+---
 
-## 快速使用 🚀
-1. 在漫画库中新建文件夹并导入图片
-2. 确保图片文件名顺序与阅读顺序一致（例如 1.jpg, 2.jpg）
-3. 在设置页 OCR 设置中选择本地 OCR，或填写 OpenAI 兼容 OCR API 的地址、Key 和模型
-4. 回到漫画库，选择文件夹并点击“翻译文件夹”
-5. 翻译完成后点击“开始阅读”，在阅读页可拖动气泡位置
+## Key Highlights ✨
 
-*全文速译建议：页数较多时分批上传翻译，或在设置中提高 API 超时。*
+### 🖊️ Active Stylus & Palm Rejection
+* **Hardware Stylus Awareness:** Differentiates between finger gestures (pan/zoom) and active stylus input (`TOOL_TYPE_STYLUS`).
+* **True Palm Rejection:** Rest your hand comfortably on the 12.7" screen while drawing bubble masks or selecting text.
+* **Hardware Pen Button Actions:** Press the stylus side button to instantly delete or erase bubble selections with haptic feedback.
 
-## 常见问题 ❓
-- 翻译失败或结果为空：确认 API 地址填写的是服务商给出的 OpenAI 兼容上级地址（例如 `https://api.deepseek.com/v1`、`https://open.bigmodel.cn/api/paas/v4`），软件会自动补全 `/chat/completions`；模型名须与供应商一致且网络可达
-- 翻译顺序错乱：请先对图片按阅读顺序重命名
-- 怎么获取AI：具体获取方法可以去搜索一下
+### 🎨 Background Inpainting & Outline Typography
+* **Smart Texture Inpainting:** Eliminates Asian characters while reconstructing underlying screentones, paper texture, and art gradients.
+* **Outline Text Engine:** High-contrast text stroke rendering ensures that translated Ukrainian, English, or Russian dialogue remains crisp and legible over any complex background artwork.
+* **Custom Font Support:** Upload your favorite scanlation TTF/OTF typography (Anime Ace, Manga Temple, Kudryashev, etc.) directly in settings.
 
-## 交流
-可以进QQ群提问交流：1080302768
+### 🌐 Online Chapter Fetcher (MangaDex Integration)
+* **Built-in Online Search:** Inspired by [Mihon](https://github.com/mihonapp/mihon), search millions of manga and manhwa titles directly in the app.
+* **Batch Chapter Downloader:** Pull complete RAW chapters in Japanese (`ja`), Korean (`ko`), or English (`en`) straight into your library without manual file transfers.
 
-## Star History
-** 喜欢的话可以点个Star哦 **
-[![Star History Chart](https://api.star-history.com/chart?repos=jedzqer/manga-translator-android&type=date&legend=top-left&sealed_token=2YazS2Kphur58dguyjXJvUdZjAgaLy5Ckqm04dEeskjCGAvyVrTo8KZOe7quJ1KByysmRKbk625CSQNMZhAEKH_DKDbUWlp6JVO77_JGO8dP17C1X8b3Jg)](https://www.star-history.com/?repos=jedzqer%2Fmanga-translator-android&type=date&legend=top-left)
+### 🤖 LLM Contextual Translation Engine
+* **Scanlation-Tuned Prompts:** Built-in translation rules tailored for authentic comic dialogue (natural phrasing, character vocative case in Ukrainian, honorifics, and comic slang).
+* **Multi-Provider Support:** Seamlessly connect to **DeepSeek-V3 / R1**, OpenRouter, OpenAI, Claude, or Google Gemini through OpenAI-compatible endpoints.
+* **Accumulating Project Glossary:** Automatically detects and tracks character names, locations, and fantasy abilities in `glossary.json` across chapters.
 
-## 数据与文件说明 🗂️
-- 漫画库存储：`/Android/data/<package>/files/manga_library/`
-- 每张图片生成同名 `*.json` 翻译结果，OCR 缓存为 `*.ocr.json`
-- 译名表：每个文件夹维护 `glossary.json`
-- 阅读进度、全文速译开关等存储在 SharedPreferences
+### 📑 Two-Way Proofreading & Script Export
+* Export not just clean pages or translated images, but also the **complete bilingual dialogue script (`script_translations.json`)** containing IDs, original text, and translated strings for team proofreading.
 
-## 从源码构建 🧩
+---
 
-### 环境要求
-- JDK 17.0.17+
-- Kotlin 2.0.0+
-- Gradle 8.11.1+
-- Android SDK: platform 36, build-tools 36.0.0
+## Supported Languages 🗺️
 
-### 构建命令
-```bash
-./gradlew :app:assembleDebug
-./gradlew :app:assembleRelease
-```
+| Source Languages | Target Translation | UI Languages |
+| :--- | :--- | :--- |
+| **Japanese** (Manga, Furigana, Vertical) | **Ukrainian** (Full scanlation rules) | **Українська** |
+| **Korean** (Manhwa, Webtoons) | **English** | **English** |
+| **Chinese Simplified & Traditional** (Manhua) | **Russian** | **Русский** |
+| English, French, Spanish, German, Italian | Portuguese (Brazil), etc. | *Follow System* |
 
-### 模型与资源
-将以下模型文件放入 `assets/` 对应子目录：
-- `models/detection/manga-bubble-seg-yolo26n-1472.onnx`（普通气泡检测，YOLO26n-seg，1472×1472 ONNX，输出气泡轮廓）
-- `models/detection/PP-OCRv6_det_mobile_infer.onnx`（Paddle OCR 文字行检测与文字块合并）
-- `models/ocr/PP-OCRv6_small_rec.onnx`（日文、英文、中文及中英混合 OCR）
-- `models/ocr/korean_PP-OCRv5_mobile_rec.onnx`、`models/ocr/korean_PP-OCRv5_mobile_rec_dict.txt`（韩文 OCR 与字符表）
-- `models/detection/PP-OCRv6_det_mobile_infer.onnx`（英文行检测）
+---
 
-模型下载链接：
-- 普通气泡检测模型：YOLO26n-seg 气泡分割模型（随应用 assets 提供）
-- 文字检测模型：PaddleOCR PP-OCRv6 mobile det
-- 通用识别模型：https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_onnx
-- 英文检测模型：https://huggingface.co/PaddlePaddle/PP-OCRv6_small_det_onnx
-- 韩文 OCR 模型：https://huggingface.co/PaddlePaddle/korean_PP-OCRv5_mobile_rec_onnx
+## Quick Start 🚀
 
-提示词、字体与 OCR 配置位于 `assets/` 子目录中，名称需与代码保持一致。
+1. **Download APK:** Download the latest `manga-translator-tablet-debug.apk` directly from the [GitHub Actions Artifacts](https://github.com/WillyWonka-coder/manga-translator-android/actions).
+2. **Configure AI Provider:**
+   * Navigate to **Settings -> API**.
+   * Set API format to **OpenAI Compatible**.
+   * Enter your endpoint (e.g. DeepSeek: `https://api.deepseek.com/v1`) and your API Key.
+   * Model name: `deepseek-chat` or your preferred model.
+3. **Get Manga:**
+   * Tap **MangaDex Online** to search and download chapters, or import local files (**CBZ, ZIP, PDF, or folder**).
+4. **Translate & Edit:**
+   * Tap **Translate All** for full-chapter processing, or read and edit bubble placements on the fly with your stylus.
 
-### 发布版本号同步
-需同时修改：
-- `app/src/main/java/com/manga/translate/app/VersionInfo.kt`
-- `app/build.gradle.kts`
-- `update.json`
+---
 
-## 🙏 致谢
+## Building from Source 🧩
 
-- [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) - 提供 OCR 模型支持
-- [kha-white/manga-ocr](https://github.com/kha-white/manga-ocr) - MangaOCR 模型支持
-- [bluolightning/manga-ocr-mobile](https://huggingface.co/bluolightning/manga-ocr-mobile) - MangaOCR-mobile 模型支持
-- 所有用户的支持
+Builds are automated via GitHub Actions — no heavy local Android Studio installation required:
+
+1. Fork this repository.
+2. Go to **Actions -> Build Android APK for Tablet -> Run workflow**.
+3. Download the compiled ARM64 APK from the artifacts in ~2 minutes.
+
+---
+
+## Special Acknowledgments & Deep Gratitude 🙏
+
+This project stands on the shoulders of giants in the open-source manga and machine learning communities. We express our deepest gratitude to:
+
+* **[jedzqer/manga-translator-android](https://github.com/jedzqer/manga-translator-android)** — For the foundational Android client architecture, bubble segmentation pipelines, and mobile ONNX integration.
+* **[kha-white/manga-ocr](https://github.com/kha-white/manga-ocr)** — For pioneering end-to-end Vision-Encoder-Decoder OCR models specialized in Japanese manga text.
+* **[mihonapp/mihon](https://github.com/mihonapp/mihon)** (formerly Tachiyomi) — For setting the gold standard in mobile manga reading, extension architecture, and online source integration.
+* **[PaddlePaddle/PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)** — For ultra-lightweight, high-accuracy multilingual OCR models that run locally on mobile CPUs.
+* **[advimman/lama](https://github.com/advimman/lama)** — For the breakthrough Large Mask Inpainting (LaMa) architecture that powers clean scanlation background restoration.
+
+---
+
+## License 📄
+
+Distributed under the [MIT License](LICENSE).
