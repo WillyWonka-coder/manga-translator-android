@@ -455,7 +455,7 @@ class LibraryFragment : Fragment() {
         binding.addFolderFab.setOnClickListener { showCreateEntryDialog() }
         binding.importEhviewerButton.setOnClickListener { importFromEhViewer() }
         binding.floatingTranslateButton.setOnClickListener { handleFloatingTranslateClick() }
-        binding.importCbzButton.setOnClickListener {
+               binding.importCbzButton.setOnClickListener {
             pickArchiveOrPdfFile.launch(
                 arrayOf(
                     "application/vnd.comicbook+zip",
@@ -465,9 +465,9 @@ class LibraryFragment : Fragment() {
                 )
             )
         }
-                      binding.onlineMangadexButton.setOnClickListener {
-         showMangaDexSearchDialog()
-     }
+        binding.onlineMangadexButton.setOnClickListener {
+            showMangaDexSearchDialog()
+        }
         binding.librarySelectAll.setOnClickListener { selectionManager.toggleSelectAllLibraryFolders() }
         binding.libraryTranslateSelected.setOnClickListener { translateSelectedLibraryFolders() }
         binding.libraryDeleteSelected.setOnClickListener { confirmDeleteSelectedLibraryFolders() }
