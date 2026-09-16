@@ -2063,8 +2063,11 @@ class LibraryFragment : Fragment() {
         mangaTitle: String,
         chapter: com.manga.translate.network.OnlineChapter
     ) {
-        val safeName = "${mangaTitle.replace(Regex("[^A-Za-z0-9а-яА-ЯіІїЇєЄґҐ _-]"), "")}_Ch${chapter.chapterNum}"
-        val folder = File(repository.libraryDir, safeName)
+             val safeName = "${mangaTitle.replace(Regex("[^A-Za-z0-9а-яА-ЯіІїЇєЄґҐ _-]"), "")}_Ch${chapter.chapterNum}"
+     val folder = repository.createFolder(safeName) ?: run {
+         Toast.makeText(requireContext(), "Папка вже існує або помилка", Toast.LENGTH_SHORT).show()
+         return
+     }
         val progressDialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.online_manga_search_button)
             .setMessage("Початок завантаження…")
